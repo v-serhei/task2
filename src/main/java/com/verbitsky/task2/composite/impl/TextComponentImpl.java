@@ -1,49 +1,50 @@
 package com.verbitsky.task2.composite.impl;
 
-import com.verbitsky.task2.composite.SimpleTextComponent;
-import com.verbitsky.task2.composite.SimpleTextComponentType;
+import com.verbitsky.task2.composite.TextComponent;
+import com.verbitsky.task2.composite.TextComponentType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleTextComposite implements SimpleTextComponent {
+public class TextComponentImpl implements TextComponent {
     public static final String LEXEME_DELIMITER = " ";
     public static final String PARAGRAPH_DELIMITER = "\n\t";
-    private SimpleTextComponentType componentType;
-    private List<SimpleTextComponent> componentList;
+    public static final String SENTENCE_DELIMITER = ".";
+    private TextComponentType componentType;
+    private List<TextComponent> componentList;
 
-    public SimpleTextComposite(SimpleTextComponentType componentType) {
+    public TextComponentImpl(TextComponentType componentType) {
         this.componentType = componentType;
         componentList = new ArrayList<>();
     }
 
     @Override
-    public void add(SimpleTextComponent component) {
+    public void add(TextComponent component) {
         if (component != null) {
             componentList.add(component);
         }
     }
 
     @Override
-    public void remove(SimpleTextComponent component) {
+    public void remove(TextComponent component) {
         componentList.remove(component);
     }
 
     @Override
-    public SimpleTextComponent getChild(int index) {
+    public TextComponent getChild(int index) {
         return componentList.get(index);
     }
 
     @Override
-    public SimpleTextComponentType getComponentType() {
+    public TextComponentType getComponentType() {
         return componentType;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SimpleTextComposite)) return false;
-        SimpleTextComposite that = (SimpleTextComposite) o;
+        if (!(o instanceof TextComponentImpl)) return false;
+        TextComponentImpl that = (TextComponentImpl) o;
         if (componentType != that.componentType) return false;
         return componentList != null ? componentList.equals(that.componentList) : that.componentList == null;
     }
@@ -58,11 +59,11 @@ public class SimpleTextComposite implements SimpleTextComponent {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (SimpleTextComponent component : componentList) {
-            if (SimpleTextComponentType.PARAGRAPH.equals(component.getComponentType())){
+        for (TextComponent component : componentList) {
+            if (TextComponentType.PARAGRAPH.equals(component.getComponentType())){
                 stringBuilder.append(PARAGRAPH_DELIMITER);
             }
-            if (SimpleTextComponentType.LEXEME.equals(component.getComponentType())){
+            if (TextComponentType.LEXEME.equals(component.getComponentType())){
                 stringBuilder.append(LEXEME_DELIMITER);
             }
             stringBuilder.append(component.toString());

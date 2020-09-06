@@ -1,5 +1,7 @@
 package com.verbitsky.task2.parser;
 
+import com.verbitsky.task2.composite.TextComponent;
+
 public interface PartParser {
-    String parse(String line);
+    TextComponent parse(String line);
 }
