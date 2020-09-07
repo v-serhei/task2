@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class Letter implements TextComponent {
     private static Logger logger = LogManager.getLogger();
     private TextComponentType componentType = TextComponentType.LETTER;
@@ -13,6 +15,12 @@ public class Letter implements TextComponent {
 
     public Letter(char letter) {
         value = letter;
+    }
+
+    @Override
+    public List<TextComponent> getChildList() {
+        logger.log(Level.WARN, "unsupported operation with this component type");
+        return null;
     }
 
     @Override

@@ -4,12 +4,12 @@ import com.verbitsky.task2.composite.TextComponent;
 import com.verbitsky.task2.composite.TextComponentType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TextComponentImpl implements TextComponent {
-    public static final String LEXEME_DELIMITER = " ";
-    public static final String PARAGRAPH_DELIMITER = "\n\t";
-    public static final String SENTENCE_DELIMITER = ".";
+    private static final String LEXEME_DELIMITER = " ";
+    private static final String PARAGRAPH_DELIMITER = "\n\t";
     private TextComponentType componentType;
     private List<TextComponent> componentList;
 
@@ -23,6 +23,11 @@ public class TextComponentImpl implements TextComponent {
         if (component != null) {
             componentList.add(component);
         }
+    }
+
+    @Override
+    public List<TextComponent> getChildList() {
+        return Collections.unmodifiableList(componentList);
     }
 
     @Override
@@ -59,14 +64,18 @@ public class TextComponentImpl implements TextComponent {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
+        int counter = 0;
         for (TextComponent component : componentList) {
-            if (TextComponentType.PARAGRAPH.equals(component.getComponentType())){
-                stringBuilder.append(PARAGRAPH_DELIMITER);
-            }
-            if (TextComponentType.LEXEME.equals(component.getComponentType())){
-                stringBuilder.append(LEXEME_DELIMITER);
-            }
             stringBuilder.append(component.toString());
+            if (++counter < componentList.size()) {
+                if (TextComponentType.PARAGRAPH.equals(component.getComponentType())) {
+                    stringBuilder.append(PARAGRAPH_DELIMITER);
+                }
+                if (TextComponentType.LEXEME.equals(component.getComponentType())) {
+                    stringBuilder.append(LEXEME_DELIMITER);
+                }
+            }
+
         }
         return stringBuilder.toString();
     }

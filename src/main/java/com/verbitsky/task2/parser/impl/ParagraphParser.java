@@ -6,16 +6,25 @@ import com.verbitsky.task2.composite.impl.TextComponentImpl;
 import com.verbitsky.task2.parser.PartParser;
 
 public class ParagraphParser implements PartParser {
+    private static final String PARAGRAPH_DELIMITER = "\n\t";
+    private static final ParagraphParser INSTANCE = new ParagraphParser();
 
-    public static final String PARAGRAPH_DELIMITER = "\n";
+    private ParagraphParser() {
+    }
+
+    public static ParagraphParser getINSTANCE() {
+        return INSTANCE;
+    }
 
     @Override
     public TextComponent parse(String line) {
         TextComponent text = new TextComponentImpl(TextComponentType.TEXT);
         String[] paragraphs = line.split(PARAGRAPH_DELIMITER);
         for (String element : paragraphs) {
-            TextComponent paragraph = SentenceParser.getINSTANCE().parse(element);
-            text.add(paragraph);
+            if (!element.isEmpty()) {
+                TextComponent paragraph = SentenceParser.getINSTANCE().parse(element);
+                text.add(paragraph);
+            }
         }
         return text;
     }

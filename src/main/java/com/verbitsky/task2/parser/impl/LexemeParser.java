@@ -6,7 +6,7 @@ import com.verbitsky.task2.composite.impl.TextComponentImpl;
 import com.verbitsky.task2.parser.PartParser;
 
 public class LexemeParser implements PartParser {
-    private static final String LEXEME_DELIMITER = "[\\s]+";
+    private static final String LEXEME_DELIMITER = "[ ]+";
     private static final LexemeParser INSTANCE = new LexemeParser();
 
     private LexemeParser() {

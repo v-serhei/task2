@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class SpecialSymbol implements TextComponent {
     private static Logger logger = LogManager.getLogger();
     private TextComponentType componentType = TextComponentType.SYMBOL;
@@ -13,6 +15,12 @@ public class SpecialSymbol implements TextComponent {
 
     public SpecialSymbol(char letter) {
         this.value = letter;
+    }
+
+    @Override
+    public List<TextComponent> getChildList() {
+        logger.log(Level.WARN, "unsupported operation with this component type");
+        return null;
     }
 
     @Override
