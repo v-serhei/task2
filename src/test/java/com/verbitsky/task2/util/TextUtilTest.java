@@ -46,4 +46,13 @@ public class TextUtilTest {
         String actual = fullText.get(0).toString();
         Assert.assertEquals(actual, expected);
     }
+
+    @Test
+    public void testTextComparatorWithParameter() {
+        String text = "Word woord woooord wooord wxc 1wx";
+        List<TextComponent> result = TextUtil.sortLexemesByEntrySymbol(text, 'o');
+        String actual = result.get(5).toString();
+        String expected = "Word";
+        Assert.assertEquals(actual, expected);
+    }
 }

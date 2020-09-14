@@ -4,9 +4,9 @@ import com.verbitsky.task2.comporator.TextComponentComparator;
 import com.verbitsky.task2.composite.TextComponent;
 import com.verbitsky.task2.composite.TextComponentType;
 import com.verbitsky.task2.exception.SimpleCompositException;
-import com.verbitsky.task2.parser.ExpressionParser;
 import com.verbitsky.task2.parser.PartParser;
 import com.verbitsky.task2.parser.impl.ExpressionParserImpl;
+import com.verbitsky.task2.parser.impl.LexemeParser;
 import com.verbitsky.task2.parser.impl.ParagraphParser;
 import com.verbitsky.task2.parser.impl.SentenceParser;
 import org.apache.logging.log4j.Level;
@@ -15,9 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class TextUtil {
-    private static final ExpressionParser mathParser = ExpressionParserImpl.getInstance();
     private static final String FRACTIONAL_PART = "\\.";
     private static final String EMPTY_SYMBOL = ",";
     private static Logger logger = LogManager.getLogger();
@@ -26,7 +26,7 @@ public class TextUtil {
     }
 
     public static String replaceArithmeticExpressionWithValue(String text, Long i, Long j) {
-        List<String> mathExpressions = mathParser.parseMathExpressions(text);
+        List<String> mathExpressions = ExpressionParserImpl.getInstance().parseMathExpressions(text);
         for (String expression : mathExpressions) {
             try {
                 String expressionValue = MathExpressionCalculator.CalculateMathExpression(expression, i, j);
@@ -39,42 +39,69 @@ public class TextUtil {
         return text;
     }
 
-    public static List<TextComponent> sortTextByParagraphsSentenceCount (String text) {
+    public static List<TextComponent> sortTextByParagraphsSentenceCount(String text) {
         PartParser parser = ParagraphParser.getInstance();
-        TextComponent components = parser.parse(text);
+        TextComponent component = parser.parse(text);
         List<TextComponent> paragraphs = new ArrayList<>();
-        for (TextComponent component : components.getChildList()) {
-            if (component.getComponentType() == TextComponentType.PARAGRAPH) {
-                paragraphs.add(component);
+        for (TextComponent child : component.getChildList()) {
+            if (child.getComponentType() == TextComponentType.PARAGRAPH) {
+                paragraphs.add(child);
             }
         }
         paragraphs.sort(TextComponentComparator.SENTENCE_COUNT);
         return paragraphs;
     }
 
-    public static List<TextComponent> sortTextBySentenceLexemesLength (String text) {
+    public static List<TextComponent> sortTextBySentenceLexemesLength(String text) {
         PartParser parser = SentenceParser.getInstance();
-        TextComponent components = parser.parse(text);
+        TextComponent component = parser.parse(text);
         List<TextComponent> sentences = new ArrayList<>();
-        for (TextComponent component : components.getChildList()) {
-            if (component.getComponentType() == TextComponentType.SENTENCE) {
-                sentences.add(component);
+        for (TextComponent child : component.getChildList()) {
+            if (child.getComponentType() == TextComponentType.SENTENCE) {
+                sentences.add(child);
             }
         }
         sentences.sort(TextComponentComparator.LEXEME_LENGTH);
         return sentences;
     }
 
-    public static List<TextComponent> sortTextBySentenceWordsLength (String text) {
+    public static List<TextComponent> sortTextBySentenceWordsLength(String text) {
         PartParser parser = SentenceParser.getInstance();
-        TextComponent components = parser.parse(text);
+        TextComponent component = parser.parse(text);
         List<TextComponent> sentences = new ArrayList<>();
-        for (TextComponent component : components.getChildList()) {
-            if (component.getComponentType() == TextComponentType.SENTENCE) {
-                sentences.add(component);
+        for (TextComponent child : component.getChildList()) {
+            if (child.getComponentType() == TextComponentType.SENTENCE) {
+                sentences.add(child);
             }
         }
         sentences.sort(TextComponentComparator.WORD_LENGTH);
         return sentences;
+    }
+
+    public static List<TextComponent> sortLexemesByEntrySymbol(String text, char symbol) {
+        PartParser parser = LexemeParser.getInstance();
+        TextComponent sentence = parser.parse(text);
+        List<TextComponent> lexemes = new ArrayList<>(sentence.getChildList());
+        lexemes.sort((o1, o2) -> {
+            IntStream intStream = o1.toString().codePoints();
+            long countFirst = intStream
+                    .filter((o) -> o == symbol)
+                    .count();
+            intStream = o2.toString().codePoints();
+            long countSecond = intStream
+                    .filter((o) -> o == symbol)
+                    .count();
+            if (countFirst > 0 && countSecond > 0) {
+                return Long.compare(countSecond, countFirst);
+            }
+            if (countFirst > 0 && countSecond == 0) {
+                return 1;
+            }
+            if (countFirst == 0 && countSecond > 0) {
+                return -1;
+            }
+            return o1.toString().compareTo(o2.toString());
+        });
+        return lexemes;
     }
 }
