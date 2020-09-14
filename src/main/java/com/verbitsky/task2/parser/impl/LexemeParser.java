@@ -12,7 +12,7 @@ public class LexemeParser implements PartParser {
     private LexemeParser() {
     }
 
-    public static LexemeParser getINSTANCE() {
+    public static LexemeParser getInstance() {
         return INSTANCE;
     }
 

@@ -12,7 +12,7 @@ public class ParagraphParser implements PartParser {
     private ParagraphParser() {
     }
 
-    public static ParagraphParser getINSTANCE() {
+    public static ParagraphParser getInstance() {
         return INSTANCE;
     }
 
@@ -22,7 +22,7 @@ public class ParagraphParser implements PartParser {
         String[] paragraphs = line.split(PARAGRAPH_DELIMITER);
         for (String element : paragraphs) {
             if (!element.isEmpty()) {
-                TextComponent paragraph = SentenceParser.getINSTANCE().parse(element);
+                TextComponent paragraph = SentenceParser.getInstance().parse(element);
                 text.add(paragraph);
             }
         }

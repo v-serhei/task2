@@ -12,12 +12,13 @@ import java.util.regex.Pattern;
 
 public class SentenceParser implements PartParser {
     private static final String SENTENCE_DELIMITER = "[\\.]+|[\\?!]";
+    private static final String EMPTY_SENTENCE = "[\\s]+";
     private static final SentenceParser INSTANCE = new SentenceParser();
 
     private SentenceParser() {
     }
 
-    public static SentenceParser getINSTANCE() {
+    public static SentenceParser getInstance() {
         return INSTANCE;
     }
 
@@ -27,12 +28,14 @@ public class SentenceParser implements PartParser {
         TextComponent paragraph = new TextComponentImpl(TextComponentType.PARAGRAPH);
         String[] sentencesArray = line.split(SENTENCE_DELIMITER);
         for (String element : sentencesArray) {
-            String delimiter = delimiters.poll();
-            if (delimiter != null) {
-                element = element.concat(delimiter);
+            if (!element.matches(EMPTY_SENTENCE)) {
+                String delimiter = delimiters.poll();
+                if (delimiter != null) {
+                    element = element.concat(delimiter);
+                }
+                TextComponent sentence = LexemeParser.getInstance().parse(element);
+                paragraph.add(sentence);
             }
-            TextComponent sentence = LexemeParser.getINSTANCE().parse(element);
-            paragraph.add(sentence);
         }
         return paragraph;
     }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SpecialSymbol implements TextComponent {
     private static Logger logger = LogManager.getLogger();
-    private TextComponentType componentType = TextComponentType.SYMBOL;
+    private TextComponentType componentType = TextComponentType.SPECIAL_SYMBOL;
     private char value;
 
     public SpecialSymbol(char letter) {
@@ -20,23 +20,25 @@ public class SpecialSymbol implements TextComponent {
     @Override
     public List<TextComponent> getChildList() {
         logger.log(Level.WARN, "unsupported operation with this component type");
-        return null;
+        throw new UnsupportedOperationException("unsupported operation with this component type");
     }
 
     @Override
     public void add(TextComponent component) {
         logger.log(Level.WARN, "unsupported operation with this component type");
+        throw new UnsupportedOperationException("unsupported operation with this component type");
     }
 
     @Override
     public void remove(TextComponent component) {
         logger.log(Level.WARN, "unsupported operation with this component type");
+        throw new UnsupportedOperationException("unsupported operation with this component type");
     }
 
     @Override
     public TextComponent getChild(int index) {
         logger.log(Level.WARN, "unsupported operation with this component type");
-        return null;
+        throw new UnsupportedOperationException("unsupported operation with this component type");
     }
 
     @Override
