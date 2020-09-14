@@ -24,8 +24,8 @@ public class MathExpressionCalculator {
         try {
             result = engine.eval(text);
         } catch (ScriptException e) {
-            logger.log(Level.WARN, "impossible to calculate expression", e);
-            throw new SimpleCompositException("impossible to calculate expression", e);
+            logger.log(Level.WARN, "impossible calculate expression", e);
+            throw new SimpleCompositException("impossible calculate expression", e);
         }
         return result.toString();
     }

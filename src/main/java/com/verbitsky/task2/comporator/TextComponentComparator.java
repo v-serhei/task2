@@ -15,7 +15,6 @@ public enum TextComponentComparator implements Comparator<TextComponent> {
     LEXEME_LENGTH {
         @Override
         public int compare(TextComponent o1, TextComponent o2) {
-            // сюда летят предложения
             return Long.compare(TextComponentComparator.calculateLexemesLength(o1),
                                     TextComponentComparator.calculateLexemesLength(o2));
         }

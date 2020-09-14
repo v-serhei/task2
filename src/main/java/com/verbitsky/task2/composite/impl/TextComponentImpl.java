@@ -90,7 +90,6 @@ public class TextComponentImpl implements TextComponent {
                     stringBuilder.append(LEXEME_DELIMITER);
                 }
             }
-
         }
         return stringBuilder.toString();
     }
