@@ -18,8 +18,8 @@ import java.util.List;
 
 public class TextUtil {
     private static final ExpressionParser mathParser = ExpressionParserImpl.getInstance();
-    public static final String FRACTIONAL_PART = ".0";
-    public static final String EMPTY_SYMBOL = "";
+    private static final String FRACTIONAL_PART = "\\.";
+    private static final String EMPTY_SYMBOL = ",";
     private static Logger logger = LogManager.getLogger();
 
     private TextUtil() {
@@ -30,7 +30,7 @@ public class TextUtil {
         for (String expression : mathExpressions) {
             try {
                 String expressionValue = MathExpressionCalculator.CalculateMathExpression(expression, i, j);
-                expressionValue = expressionValue.replace(FRACTIONAL_PART, EMPTY_SYMBOL);
+                expressionValue = expressionValue.replaceAll(FRACTIONAL_PART, EMPTY_SYMBOL);
                 text = text.replace(expression, expressionValue);
             } catch (SimpleCompositException e) {
                 logger.log(Level.WARN, e);
@@ -52,7 +52,7 @@ public class TextUtil {
         return paragraphs;
     }
 
-    public static List<TextComponent> sortTextBySentenceLexemesCount (String text) {
+    public static List<TextComponent> sortTextBySentenceLexemesLength (String text) {
         PartParser parser = SentenceParser.getInstance();
         TextComponent components = parser.parse(text);
         List<TextComponent> sentences = new ArrayList<>();
@@ -65,7 +65,7 @@ public class TextUtil {
         return sentences;
     }
 
-    public static List<TextComponent> sortTextBySentenceWordsCount (String text) {
+    public static List<TextComponent> sortTextBySentenceWordsLength (String text) {
         PartParser parser = SentenceParser.getInstance();
         TextComponent components = parser.parse(text);
         List<TextComponent> sentences = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ExpressionParserImpl implements ExpressionParser {
     private static final String MATH_EXPRESSION = "(\\s)(\\(?[(i|j)\\d\\+\\-\\*\\/)\\(\\n\\s])+\\s";
     private static final ExpressionParserImpl INSTANCE = new ExpressionParserImpl();
-    public static final String SPACES_SYMBOLS = "[\\s]{0,}|\n";
+    private static final String SPACES_SYMBOLS = "[\\s]{0,}|\n";
 
     public static ExpressionParserImpl getInstance() {
         return INSTANCE;
