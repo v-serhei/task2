@@ -51,7 +51,22 @@ public class TextComponentImpl implements TextComponent {
         if (!(o instanceof TextComponentImpl)) return false;
         TextComponentImpl that = (TextComponentImpl) o;
         if (componentType != that.componentType) return false;
-        return componentList != null ? componentList.equals(that.componentList) : that.componentList == null;
+        if (componentList != null && that.componentList != null) {
+            if (componentList.size() != that.componentList.size()) {
+                return false;
+            }
+        }
+        boolean res = false;
+        //compare child elements
+        for (int i = 0; i < componentList.size(); i++) {
+            TextComponent o1 = componentList.get(i);
+            TextComponent o2 = that.componentList.get(i);
+            res = o1.equals(o2);
+            if (!res) {
+                return false;
+            }
+        }
+        return res;
     }
 
     @Override

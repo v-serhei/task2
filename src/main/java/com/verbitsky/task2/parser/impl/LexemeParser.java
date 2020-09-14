@@ -22,7 +22,10 @@ public class LexemeParser implements PartParser {
         String[] lexemes = line.split(LEXEME_DELIMITER);
         for (String element : lexemes) {
             TextComponent lexeme = SymbolParser.getInstance().parse(element);
-            sentence.add(lexeme);
+            if (!lexeme.toString().equals("")) {
+                sentence.add(lexeme);
+            }
+
         }
         return sentence;
     }
