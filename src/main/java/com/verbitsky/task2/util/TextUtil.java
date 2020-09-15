@@ -98,7 +98,7 @@ public class TextUtil {
                 return 1;
             }
             if (countFirst == 0 && countSecond > 0) {
-                return -1;
+                return 1;
             }
             return o1.toString().compareTo(o2.toString());
         });

@@ -2,8 +2,6 @@ package com.verbitsky.task2.util;
 
 import com.verbitsky.task2.composite.TextComponent;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -51,7 +49,7 @@ public class TextUtilTest {
     public void testTextComparatorWithParameter() {
         String text = "Word woord woooord wooord wxc 1wx";
         List<TextComponent> result = TextUtil.sortLexemesByEntrySymbol(text, 'o');
-        String actual = result.get(5).toString();
+        String actual = result.get(3).toString();
         String expected = "Word";
         Assert.assertEquals(actual, expected);
     }
